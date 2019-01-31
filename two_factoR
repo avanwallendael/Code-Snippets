@@ -1,0 +1,30 @@
+set.seed(158274)
+test1<-data.frame(biomass=c(runif(10,5,8),
+                            runif(10,8,15),
+                            runif(10,2,3),
+                            runif(10,7,10),
+                            runif(10,12,18),
+                            runif(10,12,17)),
+                  treatment=c(rep("control", 30),
+                              rep("salt",30)),
+                  species=c(rep("japonica",10),
+                            rep("sachalinensis", 10),
+                            rep("bohemica", 10),
+                            rep("japonica",10),
+                            rep("sachalinensis", 10),
+                            rep("bohemica", 10))
+)
+library(ggplot2)
+library(gridExtra)
+a<-ggplot(test1, aes(y=biomass))+
+  geom_boxplot(aes(x=treatment, fill=species))+
+  labs(title="BAD")+
+  theme_classic()
+b<-ggplot(test1, aes(y=biomass))+
+  geom_boxplot(aes(x=species, fill=treatment))+
+  labs(title="GOOD")+
+  theme_classic()
+png("factorselection.png",
+    width = 5,height = 6, units="in",res=480)
+grid.arrange(a,b,nrow=2)
+dev.off()
